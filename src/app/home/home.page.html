@@ -1,0 +1,156 @@
+<ion-content>
+  <div class="container">
+    <h1>Pawn Board Game</h1>
+    <div class="controls">
+      @if (isPlaced) {
+      <ion-button
+        size="small"
+        expand="block"
+        color="dark"
+        (click)="onMove('Left')"
+      >
+        Left
+      </ion-button>
+
+      <ion-button
+        size="small"
+        expand="block"
+        color="success"
+        (click)="movePawn(1)"
+      >
+        Move 1
+      </ion-button>
+
+      @if (!isMoved2) {
+      <ion-button
+        size="small"
+        expand="block"
+        color="success"
+        (click)="movePawn(2)"
+      >
+        Move 2
+      </ion-button>
+      }
+
+      <ion-button
+        size="small"
+        expand="block"
+        color="dark"
+        (click)="onMove('Right')"
+      >
+        Right
+      </ion-button>
+      <ion-button size="small" expand="secondary" (click)="report()">
+        Report
+      </ion-button>
+      } @else {
+
+      <label
+        >X:
+        <input
+          type="number"
+          class="position-input"
+          min="0"
+          [(ngModel)]="x"
+          (change)="getPossibleDirections()"
+        />
+        <br />
+        @if (isXInValid) {
+        <span class="error"> X is required. </span>
+        } @else if (isXOutOfRange) {
+        <span class="error"> X should be between 0 to 7 </span>
+        }
+      </label>
+      <label
+        >Y:
+        <input
+          type="number"
+          class="position-input"
+          min="0"
+          [(ngModel)]="y"
+          (change)="getPossibleDirections()"
+        />
+        <br />
+        @if (isYInValid) {
+        <span class="error"> Y is required. </span>
+        }@else if (isYOutOfRange) {
+        <span class="error">Y should be between 0 to 7 </span>
+        }
+      </label>
+      <label>
+        Direction:
+        <select [(ngModel)]="direction">
+          <option value="N" [disabled]="!possibleDirections.includes('N')">
+            North
+          </option>
+          <option value="E" [disabled]="!possibleDirections.includes('E')">
+            East
+          </option>
+          <option value="S" [disabled]="!possibleDirections.includes('S')">
+            South
+          </option>
+          <option value="W" [disabled]="!possibleDirections.includes('W')">
+            West
+          </option>
+        </select>
+      </label>
+
+      <label class="color-radio"
+        >Color:
+
+        <input
+          type="radio"
+          id="white"
+          name="marker_color"
+          value="white"
+          [(ngModel)]="selectColor"
+        />
+        <label for="white">White</label>
+        <input
+          type="radio"
+          id="black"
+          name="marker_color"
+          value="black"
+          [(ngModel)]="selectColor"
+        />
+        <label for="black">Black</label>
+      </label>
+      }
+
+      <ion-button
+        size="small"
+        expand="block"
+        [disabled]="isXInValid || isYInValid || isXOutOfRange || isYOutOfRange"
+        (click)="onPlacePawn()"
+      >
+        Place
+      </ion-button>
+    </div>
+
+    <div class="board">
+      @for (row of rows; track $index; let rowIndex = $index, even = $even) {
+      <div class="col-wrapper">
+        @for (col of cols; track $index; let colIndex = $index) {
+        <div [class]="['board-item', even ? 'even' : 'odd']">
+          {{ rowIndex }}, {{ colIndex }} @if (isPlaced && position.x == rowIndex
+          && position.y == colIndex) {
+          <img
+            class="pawn"
+            src="assets/pawn-{{selectColor.toLowerCase()}}.png"
+          />
+          <img
+            [class]="['dir-arrow', 'dir-' + direction.toLowerCase()]"
+            src="assets/right-arrow.png"
+          />
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
+
+    @for (log of logs; track $index) {
+    <p>{{log}}</p>
+    }
+  </div>
+</ion-content>

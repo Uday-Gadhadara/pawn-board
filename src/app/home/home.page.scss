@@ -1,0 +1,85 @@
+.container {
+  width: 100%;
+  height: 100%;
+  max-width: 730px;
+  margin: auto;
+
+  .controls {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .position-input {
+    width: 40px;
+  }
+  .color-radio {
+    display: flex;
+    gap: 4px;
+  }
+  .error {
+    color: red;
+  }
+  label {
+    font-size: 14px;
+  }
+
+  .board {
+    border: 1px solid;
+    display: flex;
+    flex-direction: column-reverse;
+    .col-wrapper {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      height: 90px;
+      .board-item {
+        position: relative;
+        display: flex;
+        padding: 4px;
+        align-items: end;
+        width: 100%;
+        height: 100%;
+        font-size: 12px;
+        &.odd:nth-child(odd),
+        &.even:nth-child(even) {
+          background-color: black;
+          color: white;
+        }
+        .pawn {
+          position: absolute;
+          width: 40px;
+          height: 50px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .dir-arrow {
+          position: absolute;
+          width: 16px;
+          --arrow-offset: 2px;
+          --arrow-center-offset: calc(50% - 8px);
+          &.dir-n {
+            top: var(--arrow-offset);
+            left: calc(var(--arrow-center-offset));
+            transform: rotate(-90deg);
+          }
+          &.dir-e {
+            right: var(--arrow-offset);
+            top: calc(var(--arrow-center-offset));
+          }
+          &.dir-w {
+            left: var(--arrow-offset);
+            top: calc(var(--arrow-center-offset));
+            transform: rotate(180deg);
+          }
+          &.dir-s {
+            bottom: var(--arrow-offset);
+            left: calc(var(--arrow-center-offset));
+            transform: rotate(90deg);
+          }
+        }
+      }
+    }
+  }
+}
